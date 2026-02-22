@@ -7,8 +7,8 @@ let config = {
     render: {
         pixelArt: true
     },
-    width: 320,
-    height: 240,
+    width: 240,
+    height: 320,
     physics: {
         default: "arcade",
         arcade: {
@@ -16,7 +16,12 @@ let config = {
         }
     },
     zoom: 2,
-    scene: [ Overworld ]
+    scene: [ Menu, Play ]
 }
 
+let width = 240;
+let height = 320;
+
 const game = new Phaser.Game(config)
+
+let keyUp, keyDown, keyLeft, keyRight, keyShoot, keyReset
