@@ -10,16 +10,16 @@ class Menu extends Phaser.Scene {
     preload() {
         // make assets
         this.load.path = './assets/'
-        this.load.spritesheet('slime', 'slime.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        })
         this.load.image('playerShot', 'playerShot.png');
         this.load.image('enemyShot', 'EnemyShot.png');
         this.load.image('cherryParticle', 'cherryParticle.png');
         this.load.spritesheet('enemy', 'Enemy.png', {
             frameWidth: 32,
             frameHeight: 32
+        })
+        this.load.spritesheet('player', 'player.png', {
+            frameWidth: 16,
+            frameHeight: 16
         })
     }
 

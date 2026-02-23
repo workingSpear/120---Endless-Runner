@@ -41,10 +41,22 @@ class Play extends Phaser.Scene {
             speed: 150
         })
         this.highScoreTrail.stop();
-        // create player
-        this.player = new Player(this, width/2, height/2, 'slime');
 
-        //create anims
+        //create player anim
+        this.anims.create({
+            key: 'playerIdle',
+            frameRate: 4,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('player', {
+                start: 0,
+                end: 4
+            })
+        })
+        // create player
+        this.player = new Player(this, width/2, height/2, 'player');
+        this.player.anims.play('playerIdle')
+
+        //create enemy anim 
         this.anims.create({
             key: 'enemyDefault',
             frameRate: 8,
