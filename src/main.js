@@ -31,14 +31,14 @@ let textConfig = {
             fontFamily: 'Verdana',
             fontSize: '14px',
             color: '#ffffff',
-            align: 'center',
+            align: 'left',
             padding: {
                 top: 5,
                 bottom: 5,
                 left: 5,
                 right: 5
             },
-            wordWrap: { width: 300 }
+            wordWrap: { width: 240 }
         }
 
 const game = new Phaser.Game(config)
