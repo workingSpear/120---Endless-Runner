@@ -27,4 +27,9 @@ class EnemySpawner extends Phaser.Physics.Arcade.Group
         all_enemys[3].spawn(this.Pos4[0], this.Pos4[1]);
         enemys_left = 4;
     }
+
+    get_enemys(){   
+        let all_enemys = this.getMatching('active', true);
+        return all_enemys
+    }
 }

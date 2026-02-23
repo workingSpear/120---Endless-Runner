@@ -6,6 +6,9 @@ class Play extends Phaser.Scene {
     init() {
         this.playerShotCooldown = 100; // cooldown between shots in ms
         this.playerShotCooldownTimer = 0;
+
+        this.enemyShotCooldown = 1000;
+        this.enemyShotCooldownTimer = 0;
     }
 
     preload() {
@@ -18,6 +21,7 @@ class Play extends Phaser.Scene {
         keyRight = keys.right;
         keyUp = keys.up;
         keyDown = keys.down;
+        keyReset = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyShoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
 
         // create shots
@@ -49,6 +53,18 @@ class Play extends Phaser.Scene {
         if(this.playerShotCooldownTimer > 0){
             this.playerShotCooldownTimer -= delta;
         }
+        if(this.enemyShotCooldownTimer > 0){
+            this.enemyShotCooldownTimer -= delta;
+        }
+
+        if(this.enemyShotCooldownTimer <= 0){
+            this.enemyGroup.get_enemys().forEach((element)=>{
+                let new_shot = new EnemyShot(this);
+                new_shot.fire(element.x, element.y, this.player.x, this.player.y);
+            });
+            this.enemyShotCooldownTimer = this.enemyShotCooldown;
+        }
+
         this.player.update();
         if(keyShoot.isDown && this.playerShotCooldownTimer <= 0){
             this.playerShotGroup.fireBullet(this.player.x, this.player.y);
