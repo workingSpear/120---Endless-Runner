@@ -4,7 +4,8 @@ class Play extends Phaser.Scene {
     }
 
     init() {
-        this.VEL = 100  // slime velocity constant
+        this.playerShotCooldown = 100; // cooldown between shots in ms
+        this.playerShotCooldownTimer = 0;
     }
 
     preload() {
@@ -19,11 +20,22 @@ class Play extends Phaser.Scene {
         keyDown = keys.down;
         keyShoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
 
-
+        // create shots
+        this.playerShotGroup = new PlayerShotGroup(this);   
+        
         this.player = new Player(this, width/2, height/2, 'slime');
+
+        
     }
 
-    update() {
+    update(time, delta) {
+        if(this.playerShotCooldownTimer > 0){
+            this.playerShotCooldownTimer -= delta;
+        }
         this.player.update();
+        if(keyShoot.isDown && this.playerShotCooldownTimer <= 0){
+            this.playerShotGroup.fireBullet(this.player.x, this.player.y);
+            this.playerShotCooldownTimer = this.playerShotCooldown;
+        }
     }
 }

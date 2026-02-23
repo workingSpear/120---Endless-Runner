@@ -14,6 +14,11 @@ class Menu extends Phaser.Scene {
             frameWidth: 16,
             frameHeight: 16
         })
+        this.load.image('playerShot', 'playerShot.png');
+        this.load.spritesheet('enemy', 'Enemy.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        })
     }
 
     create() {
