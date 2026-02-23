@@ -19,6 +19,9 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        //reset score & rounds
+        score = 0;
+        round = 1;
         //key binds
         let keys = this.input.keyboard.createCursorKeys();
         keyLeft = keys.left;
@@ -63,6 +66,8 @@ class Play extends Phaser.Scene {
             playerShot.kill();
             if(enemy.hit(5) <= 0){
                 enemy.kill();
+                score += 50;
+                this.scoreText.text = "Score: " + score;
                 enemys_left -= 1;
                 if(enemys_left <= 0){
                     this.timeBetweenWavesTimer = this.timeBetweenWaves;
@@ -70,7 +75,11 @@ class Play extends Phaser.Scene {
                 }
             }
         })
-        
+
+        // create text
+
+        this.roundText = this.add.text(width/2, 0, "Round: " + round, textConfig).setOrigin(0.5,0);
+        this.scoreText = this.add.text(width, height,"Score: " + score, textConfig).setOrigin(1, 1);
     }
 
     endGame(){
@@ -83,6 +92,8 @@ class Play extends Phaser.Scene {
         if(this.timeBetweenWavesTimer > 0){
             this.timeBetweenWavesTimer -= delta;
             if(this.timeBetweenWavesTimer <= 0){
+                round += 1;
+                this.roundText.text = "Round: " + round;
                 this.enemyGroup.begin_wave();
             }
         }
