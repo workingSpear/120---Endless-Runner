@@ -83,6 +83,12 @@ class Play extends Phaser.Scene {
     }
 
     endGame(){
+        if(score > highest_score){
+            highest_score = score;
+        }
+        if(round > highest_round){
+            highest_round = round;
+        }
         this.scene.stop('play');
         this.anims.remove('enemyDefault');
         this.scene.start('menu')
