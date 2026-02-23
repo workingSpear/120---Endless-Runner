@@ -21,6 +21,7 @@ let config = {
 
 let width = 240;
 let height = 320;
+let enemys_left = 0;
 
 const game = new Phaser.Game(config)
 

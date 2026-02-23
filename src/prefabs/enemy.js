@@ -1,7 +1,7 @@
 // Player prefab
 class Enemy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'enemy', frame)
+    super(scene, x, y, 'enemy')
     scene.physics.add.existing(this);
     scene.add.existing(this); // adds to existing, displayList, updateList
     this.setOrigin(0.5,0.5);
@@ -9,7 +9,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
      
     // move Vars
   }
-
   hit(damage){
     this.HP -= damage;
     return this.HP;

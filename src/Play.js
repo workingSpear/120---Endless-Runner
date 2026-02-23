@@ -22,8 +22,25 @@ class Play extends Phaser.Scene {
 
         // create shots
         this.playerShotGroup = new PlayerShotGroup(this);   
-        
+       
+
         this.player = new Player(this, width/2, height/2, 'slime');
+
+        //create anims
+        this.anims.create({
+            key: 'enemyDefault',
+            frameRate: 8,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('enemy', {
+                start: 0,
+                end: 6
+            })
+        })
+
+        //create enemys
+        this.enemyGroup = new EnemySpawner(this);
+        this.enemyGroup.begin_wave();
+        this.enemyGroup.playAnimation('enemyDefault')
 
         
     }
