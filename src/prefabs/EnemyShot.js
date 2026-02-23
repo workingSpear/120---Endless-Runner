@@ -23,7 +23,6 @@ class EnemyShot extends Phaser.Physics.Arcade.Sprite
         let bulletDir = new Phaser.Math.Vector2(EndX-StartX, EndY-StartY).normalize();
         let bulletVel = bulletDir.scale(this.maxVel);
         this.rotation = Math.PI/2 + Phaser.Math.Angle.BetweenPoints({x: StartX, y: StartY}, {x: EndX, y: EndY})
-        console.log(this.rotation)
         //this.body.setVelocity(bulletVel);
         this.body.setVelocity(bulletVel.x,bulletVel.y);
     }

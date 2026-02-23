@@ -5,7 +5,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     scene.add.existing(this); // adds to existing, displayList, updateList
     this.setOrigin(0.5,0.5);
-    this.HP = 100
+    this.HP = 100;
+    this.setPushable(false);
      
     // move Vars
   }
@@ -15,6 +16,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   spawn(x, y){
+    this.HP = 100;
     this.body.reset(x,y);
     this.setActive(true);
     this.setVisible(true);

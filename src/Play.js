@@ -7,8 +7,12 @@ class Play extends Phaser.Scene {
         this.playerShotCooldown = 100; // cooldown between shots in ms
         this.playerShotCooldownTimer = 0;
 
-        this.enemyShotCooldown = 1000;
+        this.enemyShotCooldown = 1500;
+        this.enemyShotCooldownMin = 0;
         this.enemyShotCooldownTimer = 0;
+
+        this.timeBetweenWaves = 1000;
+        this.timeBetweenWavesTimer = 0;
     }
 
     preload() {
@@ -46,10 +50,43 @@ class Play extends Phaser.Scene {
         this.enemyGroup.begin_wave();
         this.enemyGroup.playAnimation('enemyDefault')
 
+        //player-Enemy col
+        this.physics.add.collider(this.player, this.enemyGroup, (player, enemy) =>{
+            this.endGame();
+        })
+
+        //player->enemyshot col handled in update, yes i know this is bad but it works
+        // i should have probably just used groups for the enemy shots too
+
+        //playerShot-Enemy col
+        this.physics.add.collider(this.playerShotGroup, this.enemyGroup, (playerShot, enemy) =>{
+            playerShot.kill();
+            if(enemy.hit(5) <= 0){
+                enemy.kill();
+                enemys_left -= 1;
+                if(enemys_left <= 0){
+                    this.timeBetweenWavesTimer = this.timeBetweenWaves;
+                    this.enemyShotCooldown = Math.max(this.enemyShotCooldown - 100, this.enemyShotCooldownMin);
+                }
+            }
+        })
         
     }
 
+    endGame(){
+        this.scene.stop('play');
+        this.anims.remove('enemyDefault');
+        this.scene.start('menu')
+    }
+
     update(time, delta) {
+        if(this.timeBetweenWavesTimer > 0){
+            this.timeBetweenWavesTimer -= delta;
+            if(this.timeBetweenWavesTimer <= 0){
+                this.enemyGroup.begin_wave();
+            }
+        }
+
         if(this.playerShotCooldownTimer > 0){
             this.playerShotCooldownTimer -= delta;
         }
@@ -61,6 +98,10 @@ class Play extends Phaser.Scene {
             this.enemyGroup.get_enemys().forEach((element)=>{
                 let new_shot = new EnemyShot(this);
                 new_shot.fire(element.x, element.y, this.player.x, this.player.y);
+                //player-EnemyShot col
+                this.physics.add.collider(this.player, new_shot, (player, shot) => {
+                    this.endGame();
+                })
             });
             this.enemyShotCooldownTimer = this.enemyShotCooldown;
         }

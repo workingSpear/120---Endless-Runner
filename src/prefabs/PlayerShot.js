@@ -46,8 +46,12 @@ class PlayerShot extends Phaser.Physics.Arcade.Sprite
         
 
         if(this.y <= -48){
-            this.setActive(false);
-            this.setVisible(false);
+            this.kill();
         }
+    }
+
+    kill(){
+        this.setActive(false);
+        this.setVisible(false);
     }
 }
