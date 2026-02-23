@@ -19,6 +19,11 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        //create bkg
+        this.space = this.add.sprite(0, 0, 'space').setOrigin(0,0);
+        //create music
+        this.bkgMusic = this.sound.add('bkgMusic', {loop: true, volume: 0.2});
+        this.bkgMusic.play();
         //reset score & rounds
         score = 0;
         round = 1;
@@ -84,6 +89,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.playerShotGroup, this.enemyGroup, (playerShot, enemy) =>{
             playerShot.kill();
             if(enemy.hit(5) <= 0){
+                this.sound.play('enemyDeath');
                 enemy.kill();
                 score += 50;
                 this.scoreText.text = "Score: " + score;
@@ -112,12 +118,18 @@ class Play extends Phaser.Scene {
         if(round > highest_round){
             highest_round = round;
         }
+        this.sound.removeAll();
         this.scene.stop('play');
         this.anims.remove('enemyDefault');
         this.scene.start('menu')
     }
 
     update(time, delta) {
+        // move bkg
+        this.space.y -= 0.05 * delta;
+        if(this.space.y <= -height){
+            this.space.y = 0;
+        }
         if(this.timeBetweenWavesTimer > 0){
             this.timeBetweenWavesTimer -= delta;
             if(this.timeBetweenWavesTimer <= 0){
@@ -135,6 +147,7 @@ class Play extends Phaser.Scene {
         }
 
         if(this.enemyShotCooldownTimer <= 0){
+            this.sound.play('enemyShot');
             this.enemyGroup.get_enemys().forEach((element)=>{
                 let new_shot = new EnemyShot(this);
                 new_shot.fire(element.x, element.y, this.player.x, this.player.y);
@@ -148,6 +161,7 @@ class Play extends Phaser.Scene {
 
         this.player.update();
         if(keyShoot.isDown && this.playerShotCooldownTimer <= 0){
+            this.sound.play('playerShot');
             this.playerShotGroup.fireBullet(this.player.x, this.player.y);
             this.playerShotCooldownTimer = this.playerShotCooldown;
         }

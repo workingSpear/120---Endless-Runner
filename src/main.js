@@ -16,7 +16,7 @@ let config = {
         }
     },
     zoom: 2,
-    scene: [ Menu, Play ]
+    scene: [ Menu, Credits, Play ]
 }
 
 let width = 240;
