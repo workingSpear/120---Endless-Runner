@@ -34,7 +34,14 @@ class Play extends Phaser.Scene {
         // create shots
         this.playerShotGroup = new PlayerShotGroup(this);   
        
-
+        //create high-score trail
+        this.highScoreTrail = this.add.particles(0, 0,'cherryParticle', {
+            angle: {min: 80, max: 100},
+            alpha: 0.3,
+            speed: 150
+        })
+        this.highScoreTrail.stop();
+        // create player
         this.player = new Player(this, width/2, height/2, 'slime');
 
         //create anims
@@ -68,6 +75,10 @@ class Play extends Phaser.Scene {
                 enemy.kill();
                 score += 50;
                 this.scoreText.text = "Score: " + score;
+                if(score > highest_score || round > highest_round){
+                    this.highScoreTrail.startFollow(this.player)
+                    this.highScoreTrail.start();
+                }
                 enemys_left -= 1;
                 if(enemys_left <= 0){
                     this.timeBetweenWavesTimer = this.timeBetweenWaves;
